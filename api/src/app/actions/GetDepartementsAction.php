@@ -7,7 +7,7 @@ use webDirectory\api\core\services\departement\DepartementServiceInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class GetDepartements extends Action {
+class GetDepartementsAction extends Action {
 
     private DepartementServiceInterface $departementService;
 

@@ -3,21 +3,30 @@ declare(strict_types=1);
 use webDirectory\api\app\actions;
 
 use webDirectory\api\app\actions\GetDepartements;
+use webDirectory\api\app\actions\GetDepartementsAction;
 use webDirectory\api\app\actions\GetDepartementsById;
+use webDirectory\api\app\actions\GetDepartementsByIdAction;
+use webDirectory\api\app\actions\GetEntreesBySearchAction;
 
 return function( \Slim\App $app): \Slim\App {
     
     // 7) Route pour récupérer la liste des départements
     $app->get('/api/services',
-        GetDepartements::class
+        GetDepartementsAction::class
         )->setName('api/services');
     //Route pour récupérer les entrées 
     $app->get('/entrees',actions\GetEntreesAction::class)->setName('entrees');
     // Route pour récupérer un département par son id
     $app->get('/api/services/{id}',
-        GetDepartementsById::class
+        GetDepartementsByIdAction::class
         )->setName('api/services/{id}');
 
+    // 11) Route pour récupérer les entrées correspondant à une recherche
+    $app->get('/api/entrees/search',
+        GetEntreesBySearchAction::class
+        )->setName('api/entrees/search');
+
+    
     return $app;
 
 };
