@@ -1,0 +1,65 @@
+version: '3.8'
+networks:
+  webDirectory-network:
+    driver: bridge
+
+services:
+  php:
+    image: canals/php:latest
+    container_name: admin_container
+    volumes:
+      - ./admin/public:/var/www/html
+      - ./admin/src:/var/www/src
+    ports:
+      - "54000:80"
+    networks:
+      - webDirectory-network
+
+  api:
+    image: canals/php:latest
+    container_name: api_container
+    volumes:
+      - ./api/public:/var/www/html
+      - ./api/src:/var/www/src
+
+    ports:
+      - "54002:80"
+    networks:
+      - webDirectory-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: webDirectory
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - webDirectory-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_container
+    environment:
+      PMA_HOST: mysql_container
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "54001:80"
+    networks:
+      - webDirectory-network
+
+  httpd:
+    image: httpd:latest
+    container_name: httpd_container
+    volumes:
+      - ./api/public:/usr/local/apache2/htdocs/
+    ports:
+      - "54003:80"
+    networks:
+      - webDirectory-network
+
+volumes:
+  mysql_data:
