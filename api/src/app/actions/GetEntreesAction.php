@@ -17,7 +17,7 @@ class GetEntreesAction extends Action {
     public  function __invoke( Request $rq, Response $rs, $args): Response {
 
         $entreesData = $this->departementService->getEntrees();
-        /*
+        
         // Format the response data
         $formattedEntrees = [
             'type' => 'collection',
@@ -26,11 +26,12 @@ class GetEntreesAction extends Action {
         ];
 
         foreach ($entreesData as $entrees) {
+            $departements = $this->departementService->getDepartementbyEntrees($entrees['id']);
             $formattedEntrees['entrees'][] = [
                 'prestation' => [
                     'nom' => $entrees['nom'],
                     'prenom' => $entrees['prenom'],
-                    'departement' => $entrees['departements'],
+                    'departement' => $departements,
                 ],
                 'links' => [
                     'self' => [
@@ -45,7 +46,7 @@ class GetEntreesAction extends Action {
 
         $responseJson = json_encode($formattedPrestations);
         $rs->getBody()->write($responseJson);
-        */
+        
 
         return $rs->withHeader('Content-Type', 'application/json');
     }
