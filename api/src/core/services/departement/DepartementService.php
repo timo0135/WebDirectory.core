@@ -24,6 +24,11 @@ class DepartementService implements DepartementServiceInterface {
      */
     public function getDepartementsById(int $id): array
     {
-        return Departement::find($id)->toArray();
+        try {
+            $departement = Departement::findOrFail($id);
+        } catch (\Exception $e) {
+            throw new DepartementServiceNotFoundException("Le département $id n'existe pas");
+        }
+        return $departement->toArray();
     }
 }
