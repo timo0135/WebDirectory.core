@@ -15,7 +15,7 @@ return function( \Slim\App $app): \Slim\App {
         GetDepartementsAction::class
         )->setName('api/services');
     //Route pour récupérer les entrées 
-    $app->get('/entrees',actions\GetEntreesAction::class)->setName('entrees');
+    $app->get('/api/entrees',actions\GetEntreesAction::class)->setName('entrees');
     // Route pour récupérer un département par son id
     $app->get('/api/services/{id}',
         GetDepartementsByIdAction::class

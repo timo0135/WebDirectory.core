@@ -5,8 +5,6 @@ namespace webDirectory\api\core\services\departement;
 use webDirectory\api\core\domain\entities\Departement;
 use webDirectory\api\core\domain\entities\Entree;
 
-use webDirectory\api\core\domain\entities\Entree;
-
 class DepartementService implements DepartementServiceInterface {
 
     /**
