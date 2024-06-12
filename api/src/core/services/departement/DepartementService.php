@@ -28,4 +28,24 @@ class DepartementService implements DepartementServiceInterface {
     {
         return Departement::find($id)->toArray();
     }
+
+    /**
+     * Méthode qui recupère toutes les entrées 
+     * 
+     * @return array
+     */
+
+    public function getEntrees() : array {
+        return Entree::all()->toArray();
+    }
+
+    public function getDepartementByEntree(string $entree_id): array
+    {
+        try{
+            $entree = Entree::findOrFail($entree_id);
+            return $entree->entree2Departement()->get()->toArray();
+        }catch (\Exception $e){
+            throw new DepartementServiceNotFoundException("Departement not found");
+        }
+    }
 }

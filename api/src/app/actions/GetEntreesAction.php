@@ -25,26 +25,31 @@ class GetEntreesAction extends Action {
             'prestations' => []
         ];
 
+
         foreach ($entreesData as $entrees) {
-            $departements = $this->departementService->getDepartementbyEntrees($entrees['id']);
+            $departements = $this->departementService->getDepartementByEntree($entrees['id']);
+            $depNoms = [];
+            $depslink = [];
+            foreach($departements as $dep) {
+                $depNoms[] = $dep['nom'];
+                $depslink[] = '/services/'.$dep['id'].'/entrees';
+            }
             $formattedEntrees['entrees'][] = [
-                'prestation' => [
+                'entree' => [
                     'nom' => $entrees['nom'],
                     'prenom' => $entrees['prenom'],
-                    'departement' => $departements,
+                    'departement' => $depNoms,
                 ],
                 'links' => [
                     'self' => [
-                        'href' => '/entrees?id=' . $entrees['id']
+                        'href' => '/entrees/'. $entrees['id']
                     ],
-                    'categorie' => [
-                        'href' => '/categorie/' . $entrees['categorie']['id']
-                    ]
+                    'categories' => $depslink
                 ]
             ];
         }
 
-        $responseJson = json_encode($formattedPrestations);
+        $responseJson = json_encode($formattedEntrees);
         $rs->getBody()->write($responseJson);
         
 
