@@ -5,6 +5,7 @@ use webDirectory\api\app\actions\GetDepartements;
 use webDirectory\api\app\actions\GetDepartementsAction;
 use webDirectory\api\app\actions\GetDepartementsById;
 use webDirectory\api\app\actions\GetDepartementsByIdAction;
+use webDirectory\api\app\actions\GetEntreesBySearchAction;
 
 return function( \Slim\App $app): \Slim\App {
     
@@ -18,6 +19,10 @@ return function( \Slim\App $app): \Slim\App {
         GetDepartementsByIdAction::class
         )->setName('api/services/{id}');
 
+    // 11) Route pour récupérer les entrées correspondant à une recherche
+    $app->get('/api/entrees/search',
+        GetEntreesBySearchAction::class
+        )->setName('api/entrees/search');
 
     
     return $app;
