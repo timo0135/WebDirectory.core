@@ -11,9 +11,9 @@ class Departement extends Model{
 
     function entree2Departement(){
         return $this->belongsToMany('webDirectory\api\core\domain\entities\Entree', 'entree2Departement',
-            'entree_id',
-            'departement_id'
-    );
+            'departement_id',
+            'entree_id'
+        );
     }
 }
 
