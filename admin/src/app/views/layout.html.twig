@@ -21,15 +21,10 @@
     {% endif %}#}
 </header>
 <nav>
-    {#<a href="{{ url_for('prestations') }}">Catalogue</a>
-    {% if sessionUser %}
-        <a href="{{ url_for('GetBoxes') }}">Mes box</a>
-    {% else %}
-        <div>
-            <a href="{{ url_for('signin') }}">Connexion</a>
-            <a href="{{ url_for('signup') }}">Inscription</a>
-        </div>
-    {% endif %}#}
+    {% if sessionUser is null %}
+        <a href="{{ url_for('signin') }}">Connexion</a>
+
+    {% endif %}
 </nav>
 <main>
     {% block content %}{% endblock %}
