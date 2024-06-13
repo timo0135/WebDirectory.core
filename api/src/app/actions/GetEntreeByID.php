@@ -17,6 +17,13 @@ class GetEntreeByID extends Action
         {
             $entreeId = $args['id'];
             $entree = $this->departementService->getEntreeById($entreeId);
+            $departements = $this->departementService->getDepartementByEntree($entreeId);
+            $depNoms = [];
+            $depslink = [];
+            foreach($departements as $dep) {
+                $depNoms[] = $dep['nom'];
+                $depslink[] = '/api/services/'.$dep['id'];
+            }
             $formattedEntree = [
                 'type' => 'resource',
                 'entree' => [
@@ -30,8 +37,15 @@ class GetEntreeByID extends Action
                     'email' => $entree['email'],
                     'image' => $entree['image'],
                     'statut' => $entree['statut'],
+                    'departement' => $depNoms,
 
+
+                ],
+                'links' => [
+
+                    'categories' => $depslink
                 ]
+
             ];
             $rs->getBody()->write(json_encode($formattedEntree));
             return $rs->withHeader('Content-Type', 'application/json');
