@@ -49,4 +49,19 @@ class DepartementService implements DepartementServiceInterface {
         }
         return $e->id;
     }
+
+    public function createDepartement(array $departement): int
+    {
+        $d = new Departement();
+        $d->nom = $departement['name'];
+        $d->etage = $departement['etage'];
+        $d->description = $departement['description'];
+        $d->save();
+        return $d->id;
+    }
+
+    public function getEntrees(): array
+    {
+        return Entree::all()->toArray();
+    }
 }

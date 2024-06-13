@@ -1,0 +1,12 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Entrees</h1>
+    <div class="entrees">
+        {% for entree in entrees %}
+            <div class="entree">
+                <h2>{{ entree.nom }} {{ entree.prenom }}</h2>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
