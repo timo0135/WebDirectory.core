@@ -1,10 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use webDirectory\api\app\actions\GetDepartements;
 use webDirectory\api\app\actions\GetDepartementsAction;
-use webDirectory\api\app\actions\GetDepartementsById;
-use webDirectory\api\app\actions\GetDepartementsByIdAction;
+use webDirectory\api\app\actions\GetDepartementByIdAction;
 use webDirectory\api\app\actions\GetEntreesBySearchAction;
 use webDirectory\api\app\actions\GetEntreesAction;
 use webDirectory\api\app\actions\GetEntreeByID;
@@ -21,7 +19,7 @@ return function(\Slim\App $app): \Slim\App {
     $app->get('/api/entrees',GetEntreesAction::class)->setName('entrees');
     // Route pour récupérer un département par son id
     $app->get('/api/services/{id}',
-        GetDepartementsByIdAction::class
+        GetDepartementByIdAction::class
         )->setName('api/services/{id}');
 
     // 11) Route pour récupérer les entrées correspondant à une recherche

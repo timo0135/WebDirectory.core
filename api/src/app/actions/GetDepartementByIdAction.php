@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
 use webDirectory\api\core\services\departement\DepartementServiceNotFoundException;
 
-class GetDepartementsByIdAction extends Action {
+class GetDepartementByIdAction extends Action {
 
     private DepartementServiceInterface $departementService;
 
@@ -21,7 +21,7 @@ class GetDepartementsByIdAction extends Action {
        
         try {
             $departementId = (int) $args['id'];
-            $departement = $this->departementService->getDepartementsById($departementId);
+            $departement = $this->departementService->getDepartementById($departementId);
 
             // Formatage de la réponse
             $departementFormatted = [];

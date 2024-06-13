@@ -44,7 +44,7 @@ class DepartementService implements DepartementServiceInterface {
      * @param int $id
      * @return array
      */
-    public function getDepartementsById(int $id): array
+    public function getDepartementById(int $id): array
     {
         try {
             $departement = Departement::findOrFail($id);
@@ -89,5 +89,43 @@ class DepartementService implements DepartementServiceInterface {
         }catch (\Exception $e){
             throw new DepartementServiceNotFoundException("Entree not found");
         }
+    }
+
+    public function getEntreesByDepartementOrder(int $departement_id, string $order, string $colum): array
+    {
+        try{
+            if ($order !== 'asc' && $order !== 'desc'){
+                throw new DepartementServiceNotFoundException("Order not found");
+            }
+            $departement = Departement::findOrFail($departement_id);
+            return $departement->entree2Departement()->orderBy($colum, $order)->get()->where('statut', 1)->toArray();
+        }catch (\Exception $e){
+            throw new DepartementServiceNotFoundException("Departement not found");
+        }
+    }
+
+    public function getDepartementsOrder(string $order, string $colum): array
+    {
+        if ($order === 'asc' || $order === 'desc'){
+            return Departement::orderBy($colum, $order)->get()->toArray();
+        }
+        throw new DepartementServiceNotFoundException("Order not found");
+
+    }
+
+    public function getEntreesOrder(string $order, string $colum ): array
+    {
+        if ($order === 'asc' || $order === 'desc'){
+            return Entree::orderBy($colum, $order)->where('statut', 1)->get()->toArray();
+        }
+        throw new DepartementServiceNotFoundException("Order not found");
+    }
+
+    public function getEntreesBySearchOrder(string $search, string $order, string $colum): array
+    {
+        if ($order !== 'asc' && $order !== 'desc'){
+            throw new DepartementServiceNotFoundException("Order not found");
+        }
+        return Entree::where('nom', 'like', "%$search%")->where('statut', 1)->orderBy($colum, $order)->get()->toArray();
     }
 }

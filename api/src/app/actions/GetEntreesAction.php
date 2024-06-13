@@ -2,8 +2,10 @@
 namespace webDirectory\api\app\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpNotFoundException;
 use webDirectory\api\core\services\departement\DepartementService;
 use webDirectory\api\core\services\departement\DepartementServiceInterface;
+use webDirectory\api\core\services\departement\DepartementServiceNotFoundException;
 
 class GetEntreesAction extends Action {
 
@@ -16,44 +18,58 @@ class GetEntreesAction extends Action {
 
     public  function __invoke( Request $rq, Response $rs, $args): Response {
 
-        $entreesData = $this->departementService->getEntrees();
-        
-        // Format the response data
-        $formattedEntrees = [
-            'type' => 'collection',
-            'count' => count($entreesData),
-            'prestations' => []
-        ];
-
-
-        foreach ($entreesData as $entrees) {
-            $departements = $this->departementService->getDepartementByEntree($entrees['id']);
-            $depNoms = [];
-            $depslink = [];
-            foreach($departements as $dep) {
-                $depNoms[] = $dep['nom'];
-                $depslink[] = '/api/services/'.$dep['id'];
+        try{
+            $trie = $rq->getQueryParams()['order'] ?? null;
+            if ($trie != null) {
+                $trie = explode('-', $trie);
+                $colum = $trie[0];
+                $order = $trie[1];
+                $entreesData = $this->departementService->getEntreesOrder($order, $colum);
+            } else {
+                $entreesData = $this->departementService->getEntrees();
             }
-            $formattedEntrees['entrees'][] = [
-                'entree' => [
-                    'nom' => $entrees['nom'],
-                    'prenom' => $entrees['prenom'],
-                    'departement' => $depNoms,
-                ],
-                'links' => [
-                    'self' => [
-                        'href' => '/api/entrees/'. $entrees['id']
-                    ],
-                    'categories' => $depslink
-                ]
+
+
+
+            // Format the response data
+            $formattedEntrees = [
+                'type' => 'collection',
+                'count' => count($entreesData),
+                'prestations' => []
             ];
+
+
+            foreach ($entreesData as $entrees) {
+                $departements = $this->departementService->getDepartementByEntree($entrees['id']);
+                $depNoms = [];
+                $depslink = [];
+                foreach($departements as $dep) {
+                    $depNoms[] = $dep['nom'];
+                    $depslink[] = '/api/services/'.$dep['id'];
+                }
+                $formattedEntrees['entrees'][] = [
+                    'entree' => [
+                        'nom' => $entrees['nom'],
+                        'prenom' => $entrees['prenom'],
+                        'departement' => $depNoms,
+                    ],
+                    'links' => [
+                        'self' => [
+                            'href' => '/api/entrees/'. $entrees['id']
+                        ],
+                        'categories' => $depslink
+                    ]
+                ];
+            }
+
+            $responseJson = json_encode($formattedEntrees);
+            $rs->getBody()->write($responseJson);
+
+
+            return $rs->withHeader('Content-Type', 'application/json');
+        }catch (DepartementServiceNotFoundException $e) {
+            throw new HttpNotFoundException($rq, $e->getMessage());
         }
-
-        $responseJson = json_encode($formattedEntrees);
-        $rs->getBody()->write($responseJson);
-        
-
-        return $rs->withHeader('Content-Type', 'application/json');
     }
 
 

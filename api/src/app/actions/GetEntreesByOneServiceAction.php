@@ -21,7 +21,16 @@ class GetEntreesByOneServiceAction extends Action
     {
         try {
             $departement_id = $args['id'];
-            $entrees = $this->departementService->getEntreesByDepartement($departement_id);
+            $trie = $rq->getQueryParams()['order'] ?? null;
+            if ($trie != null) {
+                $trie = explode('-', $trie);
+                $colum = $trie[0];
+                $order = $trie[1];
+                $entrees = $this->departementService->getEntreesByDepartementOrder($departement_id, $order, $colum);
+            } else {
+                $entrees = $this->departementService->getEntreesByDepartement($departement_id);
+            }
+
 
 
             $entreesFormatted = [];
