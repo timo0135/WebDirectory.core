@@ -1,6 +1,6 @@
 <?php
 
-namespace webDirectory\api\core\domain\entities;
+namespace gift\admin\core\domain\entities;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Web Directory Admin{% endblock %}</title>
+    {#<link rel="stylesheet" href="{{ base_path()}}/{{ css }}/layout.css">#}
+    {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
+
+    {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
+</head>
+<body>
+<header>
+    {#<a href="{{ url_for('home') }}"><h1>Gift Application</h1></a>
+    {% if sessionUser %}
+        <a id="logout" href="{{ url_for('logout') }}">Déconnexion</a>
+    {% endif %}#}
+</header>
+<nav>
+    {#<a href="{{ url_for('prestations') }}">Catalogue</a>
+    {% if sessionUser %}
+        <a href="{{ url_for('GetBoxes') }}">Mes box</a>
+    {% else %}
+        <div>
+            <a href="{{ url_for('signin') }}">Connexion</a>
+            <a href="{{ url_for('signup') }}">Inscription</a>
+        </div>
+    {% endif %}#}
+</nav>
+<main>
+    {% block content %}{% endblock %}
+</main>
+<footer>
+    <h4>&copy; 2024 Web Directory Timothée Benchergui Maxime Biechy Liam Despaquis Félicien Dirand.</h4>
+</footer>
+</body>
+</html>

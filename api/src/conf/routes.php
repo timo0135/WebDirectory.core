@@ -9,7 +9,9 @@ use webDirectory\api\app\actions\GetEntreesBySearchAction;
 use webDirectory\api\app\actions\GetEntreesAction;
 use webDirectory\api\app\actions\GetEntreeByID;
 
-return function( \Slim\App $app): \Slim\App {
+use webDirectory\api\app\actions\GetEntreesByOneServiceAction;
+
+return function(\Slim\App $app): \Slim\App {
 
     // 7) Route pour récupérer la liste des départements
     $app->get('/api/services',
@@ -27,7 +29,7 @@ return function( \Slim\App $app): \Slim\App {
         GetEntreesBySearchAction::class
         )->setName('api/entrees/search');
     $app->get('/api/entrees/{id}', GetEntreeByID::class)->setName('departement');
-
+    $app->get('/api/services/{id}/entrees', GetEntreesByOneServiceAction::class);
     return $app;
 
 };

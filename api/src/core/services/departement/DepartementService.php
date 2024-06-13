@@ -7,9 +7,30 @@ use webDirectory\api\core\domain\entities\Entree;
 
 class DepartementService implements DepartementServiceInterface {
 
+
+    public function getEntreesByDepartement(int $departement_id): array
+    {
+        try{
+            $departement = Departement::findOrFail($departement_id);
+            return $departement->entree2Departement()->get()->toArray();
+        }catch (\Exception $e){
+            throw new DepartementServiceNotFoundException("Departement not found");
+        }
+
+    }
+
+    public function getDepartementByEntree(string $entree_id): array
+    {
+        try{
+            $entree = Entree::findOrFail($entree_id);
+            return $entree->entree2Departement()->get()->toArray();
+        }catch (\Exception $e){
+            throw new DepartementServiceNotFoundException("Departement not found");
+        }
+    }
     /**
      * Méthode qui retourne la liste de départements
-     * 
+     *
      * @return array
      */
     public function getDepartements(): array
@@ -19,7 +40,7 @@ class DepartementService implements DepartementServiceInterface {
 
     /**
      * Méthode qui retourne un département par son id
-     * 
+     *
      * @param int $id
      * @return array
      */
@@ -35,7 +56,7 @@ class DepartementService implements DepartementServiceInterface {
 
     /**
      * Méthode qui retourne les entrées correspondant à une recherche
-     * 
+     *
      * @param string $search
      * @return array
      */
@@ -46,28 +67,18 @@ class DepartementService implements DepartementServiceInterface {
         } catch (\Exception $e) {
             throw new DepartementServiceNotFoundException("Aucun département ne correspond à la recherche $search");
         }
-            
+
         return $departements->toArray();
     }
 
     /**
-     * Méthode qui recupère toutes les entrées 
-     * 
+     * Méthode qui recupère toutes les entrées
+     *
      * @return array
      */
 
     public function getEntrees() : array {
         return Entree::all()->toArray();
-    }
-
-    public function getDepartementByEntree(string $entree_id): array
-    {
-        try{
-            $entree = Entree::findOrFail($entree_id);
-            return $entree->entree2Departement()->get()->toArray();
-        }catch (\Exception $e){
-            throw new DepartementServiceNotFoundException("Departement not found");
-        }
     }
 
     public function getEntreeById(string $entree_id): array
