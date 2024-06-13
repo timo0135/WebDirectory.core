@@ -25,6 +25,9 @@
         <a href="{{ url_for('signin') }}">Connexion</a>
 
     {% endif %}
+    {% if sessionUser['role'] == 100 %}
+        <a href="{{ url_for('signup') }}">Ajouter un compte</a>
+    {% endif %}
 </nav>
 <main>
     {% block content %}{% endblock %}

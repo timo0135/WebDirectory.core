@@ -12,6 +12,6 @@ Eloquent::init(__DIR__ . '/../src/conf/gift.db.conf.ini');
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-
+define('addAcount', 1);
 $app->run();
 
