@@ -2,7 +2,7 @@
 
 namespace webDirectory\admin\core\services\auth;
 
-use webDirectory\api\core\domain\entities\User;
+use webDirectory\admin\core\domain\entities\User;
 
 class AuthService implements AuthServiceInterface
 {

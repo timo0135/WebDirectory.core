@@ -8,6 +8,7 @@ interface DepartementServiceInterface {
     public function createEntree(array $entree, array $departement): string;
     public function createDepartement(array $departement): int;
     public function getEntrees(): array;
+    public function changeEntreeStatut(string $entree_id): void;
 
     
 }

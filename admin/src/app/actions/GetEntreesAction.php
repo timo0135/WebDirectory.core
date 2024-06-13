@@ -5,6 +5,7 @@ namespace webDirectory\admin\app\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use webDirectory\admin\app\utils\CsrfService;
 use webDirectory\admin\core\services\departement\DepartementService;
 use webDirectory\admin\core\services\departement\DepartementServiceInterface;
 
@@ -29,6 +30,6 @@ class GetEntreesAction extends Action
             $entrees[$key]['departements'] = $this->departementService->getDepartementByEntree($value['id']);
         }
         $view = Twig::fromRequest($rq);
-        return $view->render($rs, $this->template, ['entrees' => $entrees]);
+        return $view->render($rs, $this->template, ['entrees' => $entrees, 'csrf' => CsrfService::generate()]);
     }
 }

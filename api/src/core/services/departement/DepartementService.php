@@ -12,7 +12,7 @@ class DepartementService implements DepartementServiceInterface {
     {
         try{
             $departement = Departement::findOrFail($departement_id);
-            return $departement->entree2Departement()->get()->toArray();
+            return $departement->entree2Departement()->get()->where('statut', 1)->toArray();
         }catch (\Exception $e){
             throw new DepartementServiceNotFoundException("Departement not found");
         }
@@ -25,7 +25,7 @@ class DepartementService implements DepartementServiceInterface {
             $entree = Entree::findOrFail($entree_id);
             return $entree->entree2Departement()->get()->toArray();
         }catch (\Exception $e){
-            throw new DepartementServiceNotFoundException("Departement not found");
+            throw new DepartementServiceNotFoundException("Entree not found");
         }
     }
     /**
@@ -63,7 +63,7 @@ class DepartementService implements DepartementServiceInterface {
     public function getEntreesBySearch(string $search): array
     {
         try {
-            $departements = Entree::where('nom', 'like', "%$search%")->get();
+            $departements = Entree::where('nom', 'like', "%$search%")->where('statut', 1)->get();
         } catch (\Exception $e) {
             throw new DepartementServiceNotFoundException("Aucun département ne correspond à la recherche $search");
         }
@@ -78,13 +78,13 @@ class DepartementService implements DepartementServiceInterface {
      */
 
     public function getEntrees() : array {
-        return Entree::all()->toArray();
+        return Entree::where('statut', 1)->get()->toArray();
     }
 
     public function getEntreeById(string $entree_id): array
     {
         try{
-            $entree = Entree::findOrFail($entree_id);
+            $entree = Entree::where('id', $entree_id)->where('statut', 1)->first();
             return $entree->toArray();
         }catch (\Exception $e){
             throw new DepartementServiceNotFoundException("Entree not found");

@@ -64,4 +64,19 @@ class DepartementService implements DepartementServiceInterface {
     {
         return Entree::all()->toArray();
     }
+
+    public function changeEntreeStatut(string $entree_id): void
+    {
+        try{
+            $entree = Entree::findOrFail($entree_id);
+            if ($entree->statut == 1) {
+                $entree->statut = 0;
+            } else {
+                $entree->statut = 1;
+            }
+            $entree->save();
+        }catch (\Exception $e){
+            throw new DepartementServiceNotFoundException("Entree not found");
+        }
+    }
 }

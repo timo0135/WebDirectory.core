@@ -10,6 +10,7 @@ use webDirectory\admin\app\actions\GetEntreesForOneServiceAction;
 use webDirectory\admin\app\actions\PostConnectionAction;
 use webDirectory\admin\app\actions\PostCreateEntreeAction;
 use webDirectory\admin\app\actions\PostCreateServiceAction;
+use webDirectory\admin\app\actions\PostEntreeStatutAction;
 
 return function(\Slim\App $app): \Slim\App {
 
@@ -28,6 +29,8 @@ return function(\Slim\App $app): \Slim\App {
     $app->get('/signin', GetConnectionAction::class)->setName('signin');
 
     $app->post('/signin', PostConnectionAction::class)->setName('signin.post');
+
+    $app->post('/entrees/statut', PostEntreeStatutAction::class)->setName('entrees.statut.post');
 
 
 
