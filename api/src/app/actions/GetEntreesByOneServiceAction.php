@@ -36,6 +36,27 @@ class GetEntreesByOneServiceAction extends Action
             $entreesFormatted = [];
             foreach ($entrees as $entree) {
                 $departements = $this->departementService->getDepartementByEntree($entree['id']);
+                $depNoms = [];
+                $depslink = [];
+                foreach($departements as $dep) {
+                    $depNoms[] = $dep['nom'];
+                    $depslink[] = '/api/services/'.$dep['id'].'/entrees';
+                }
+                $entreesFormatted[] = [
+                    'entree' => [
+                        'nom' => $entree['nom'],
+                        'prenom' => $entree['prenom'],
+                        'departement' => $depNoms,
+                    ],
+                    'links' => [
+                        'self' => [
+                            'href' => '/api/entrees/'. $entree['id']
+                        ],
+                        'categories' => $depslink
+                    ]
+                ];
+                
+                /*$departements = $this->departementService->getDepartementByEntree($entree['id']);
                 $departementsFormatted = [];
                 foreach ($departements as $departement) {
                     $departementsFormatted[] = [
@@ -60,7 +81,7 @@ class GetEntreesByOneServiceAction extends Action
                     'links' => [
                         'self' => ['href' => '/entrees/' . $entree['id'] . '/']
                     ]
-                ];
+                ];*/
             }
             $json = [
                 'type' => 'collection',

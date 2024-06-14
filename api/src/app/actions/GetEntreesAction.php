@@ -44,7 +44,7 @@ class GetEntreesAction extends Action {
                 $depslink = [];
                 foreach($departements as $dep) {
                     $depNoms[] = $dep['nom'];
-                    $depslink[] = '/api/services/'.$dep['id'];
+                    $depslink[] = '/api/services/'.$dep['id'].'/entrees';
                 }
                 $formattedEntrees['entrees'][] = [
                     'entree' => [
