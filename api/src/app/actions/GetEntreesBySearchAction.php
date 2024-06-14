@@ -38,6 +38,28 @@ class GetEntreesBySearchAction extends Action {
             // Formatage de la réponse
             $entreesFormatted = [];
             foreach ($entrees as $entree) {
+                $departements = $this->departementService->getDepartementByEntree($entree['id']);
+                $depNoms = [];
+                $depslink = [];
+                foreach($departements as $dep) {
+                    $depNoms[] = $dep['nom'];
+                    $depslink[] = '/api/services/'.$dep['id'];
+                }
+                $entreesFormatted['entrees'][] = [
+                    'entree' => [
+                        'nom' => $entree['nom'],
+                        'prenom' => $entree['prenom'],
+                        'departement' => $depNoms,
+                    ],
+                    'links' => [
+                        'self' => [
+                            'href' => '/api/entrees/'. $entree['id']
+                        ],
+                        'categories' => $depslink
+                    ]
+                ];
+
+                /*
                 $entreesFormatted[] = [
                     'entree' => [
                         'id' => $entree['id'],
@@ -51,6 +73,7 @@ class GetEntreesBySearchAction extends Action {
                         'image' => $entree['image'],
                     ],
                 ];
+                */
             }
 
             $responseContent = [
