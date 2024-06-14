@@ -31,6 +31,16 @@ class DepartementService implements DepartementServiceInterface {
 
     public function createEntree(array $entree, array $departement): string
     {
+        // contre les injections
+        if ($entree['lastname'] !== filter_var($entree['lastname'], FILTER_SANITIZE_SPECIAL_CHARS)
+            || $entree['firstname'] !== filter_var($entree['firstname'], FILTER_SANITIZE_SPECIAL_CHARS) ||
+            $entree['fonction'] !== filter_var($entree['fonction'], FILTER_SANITIZE_SPECIAL_CHARS) ||
+            $entree['Desktop'] !== filter_var($entree['Desktop'], FILTER_SANITIZE_SPECIAL_CHARS) ||
+            $entree['phone1'] !== filter_var($entree['phone1'], FILTER_SANITIZE_SPECIAL_CHARS) ||
+            $entree['phone2'] !== filter_var($entree['phone2'], FILTER_SANITIZE_SPECIAL_CHARS) ||
+            $entree['email'] !== filter_var($entree['email'], FILTER_SANITIZE_SPECIAL_CHARS)){
+            throw new DepartementServiceBadDataException("Donnée suspecte");
+        }
         $img = strtolower($entree['lastname']).'png';
         $e = new Entree();
         $e->nom = $entree['lastname'];
@@ -52,6 +62,11 @@ class DepartementService implements DepartementServiceInterface {
 
     public function createDepartement(array $departement): int
     {
+        if ($departement['name'] !== filter_var($departement['name'], FILTER_SANITIZE_SPECIAL_CHARS)
+            || $departement['etage'] !== filter_var($departement['etage'], FILTER_SANITIZE_SPECIAL_CHARS) ||
+            $departement['description'] !== filter_var($departement['description'], FILTER_SANITIZE_SPECIAL_CHARS)){
+            throw new DepartementServiceBadDataException("Donnée suspecte");
+        }
         $d = new Departement();
         $d->nom = $departement['name'];
         $d->etage = $departement['etage'];
@@ -78,5 +93,10 @@ class DepartementService implements DepartementServiceInterface {
         }catch (\Exception $e){
             throw new DepartementServiceNotFoundException("Entree not found");
         }
+    }
+
+    public function getDepartements(): array
+    {
+        return Departement::all()->toArray();
     }
 }

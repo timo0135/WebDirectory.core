@@ -2,6 +2,7 @@
 
 namespace webDirectory\api\core\services\departement;
 
+use Illuminate\Database\Capsule\Manager as Capsule;
 use webDirectory\api\core\domain\entities\Departement;
 use webDirectory\api\core\domain\entities\Entree;
 
@@ -94,6 +95,10 @@ class DepartementService implements DepartementServiceInterface {
     public function getEntreesByDepartementOrder(int $departement_id, string $order, string $colum): array
     {
         try{
+            // vérfifier que la colonne existe
+            if (!Capsule::schema()->hasColumn('entree', $colum)){
+                throw new DepartementServiceNotFoundException("Column not found");
+            }
             if ($order !== 'asc' && $order !== 'desc'){
                 throw new DepartementServiceNotFoundException("Order not found");
             }
@@ -106,6 +111,10 @@ class DepartementService implements DepartementServiceInterface {
 
     public function getDepartementsOrder(string $order, string $colum): array
     {
+        // vérfifier que la colonne existe
+        if (!Capsule::schema()->hasColumn('departement', $colum)){
+            throw new DepartementServiceNotFoundException("Column not found");
+        }
         if ($order === 'asc' || $order === 'desc'){
             return Departement::orderBy($colum, $order)->get()->toArray();
         }
@@ -115,6 +124,10 @@ class DepartementService implements DepartementServiceInterface {
 
     public function getEntreesOrder(string $order, string $colum ): array
     {
+        // vérfifier que la colonne existe
+        if (!Capsule::schema()->hasColumn('entree', $colum)){
+            throw new DepartementServiceNotFoundException("Column not found");
+        }
         if ($order === 'asc' || $order === 'desc'){
             return Entree::orderBy($colum, $order)->where('statut', 1)->get()->toArray();
         }
@@ -123,6 +136,10 @@ class DepartementService implements DepartementServiceInterface {
 
     public function getEntreesBySearchOrder(string $search, string $order, string $colum): array
     {
+        // vérfifier que la colonne existe
+        if (!Capsule::schema()->hasColumn('entree', $colum)){
+            throw new DepartementServiceNotFoundException("Column not found");
+        }
         if ($order !== 'asc' && $order !== 'desc'){
             throw new DepartementServiceNotFoundException("Order not found");
         }

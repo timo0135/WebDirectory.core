@@ -5,15 +5,19 @@
     <form action="{{ url_for('entrees.create.post') }}" method="post">
         <label for="firstname">Prénom</label>
         <input type="text" name="firstname" id="firstname" required>
+
         <label for="lastname">Nom</label>
         <input type="text" name="lastname" id="lastname" required>
+
         <label for="fonction">Fonction</label>
         <input type="text" name="fonction" id="fonction" required>
+
         <label for="Desktop">Numéro de Bureau</label>
         <input type="number" name="Desktop" id="Desktop" required>
 
         <label for="phone1">Numéro de Téléphone 1</label>
         <input type="tel" name="phone1" id="phone1" required>
+
         <label for="phone2">Numéro de Téléphone 2</label>
         <input type="tel" name="phone2" id="phone2" disabled>
 
@@ -22,15 +26,19 @@
 
         <div id="departments">
             <label for="department1">Département 1</label>
-            <input type="text" name="departments[]" id="department1" class="department-field">
+            <select name="departments[]" id="department1" class="department-field">
+                <option value="">-- Sélectionner un département --</option>
+                {% for department in departements %}
+                    <option value="{{ department['nom'] }}">{{ department['nom'] }}</option>
+                {% endfor %}
+            </select>
         </div>
+
         <input type="hidden" name="csrf" value="{{ csrf }}">
         <button type="button" id="add-department">Ajouter un département</button>
 
         <button type="submit">Créer</button>
     </form>
-
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -60,14 +68,29 @@
                 newDepartmentLabel.setAttribute('for', 'department' + departmentCount);
                 newDepartmentLabel.textContent = 'Département ' + departmentCount;
 
-                const newDepartmentInput = document.createElement('input');
-                newDepartmentInput.setAttribute('type', 'text');
-                newDepartmentInput.setAttribute('name', 'departments[]');
-                newDepartmentInput.setAttribute('id', 'department' + departmentCount);
-                newDepartmentInput.classList.add('department-field');
+                const newDepartmentSelect = document.createElement('select');
+                newDepartmentSelect.setAttribute('name', 'departments[]');
+                newDepartmentSelect.setAttribute('id', 'department' + departmentCount);
+                newDepartmentSelect.classList.add('department-field');
+
+                const defaultOption = document.createElement('option');
+                defaultOption.value = "";
+                defaultOption.textContent = "-- Sélectionner un département --";
+                newDepartmentSelect.appendChild(defaultOption);
+
+                {% for department in departements %}
+                {
+                    const option = document.createElement('option');
+                    option.value = "{{ department['nom'] }}";
+                    option.textContent = "{{ department['nom'] }}";
+                    newDepartmentSelect.appendChild(option);
+                }
+                {% endfor %}
 
                 departmentDiv.appendChild(newDepartmentLabel);
-                departmentDiv.appendChild(newDepartmentInput);
+                departmentDiv.appendChild(newDepartmentSelect);
+
+                updateAvailableOptions();
             });
 
             const phone1Input = document.getElementById('phone1');
@@ -85,6 +108,39 @@
             if (phone1Input.value.trim() === "") {
                 phone2Input.disabled = true;
             }
+
+            function updateAvailableOptions() {
+                const allSelects = document.querySelectorAll('.department-field');
+                const selectedValues = Array.from(allSelects).map(select => select.value).filter(value => value !== "");
+
+                allSelects.forEach(select => {
+                    const currentValue = select.value;
+                    while (select.firstChild) {
+                        select.removeChild(select.firstChild);
+                    }
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = "";
+                    defaultOption.textContent = "-- Sélectionner un département --";
+                    select.appendChild(defaultOption);
+                    {% for department in departements %}
+                    {
+                        if (!selectedValues.includes("{{ department['nom'] }}") || "{{ department['nom'] }}" === currentValue) {
+                            const option = document.createElement('option');
+                            option.value = "{{ department['nom'] }}";
+                            option.textContent = "{{ department['nom'] }}";
+                            select.appendChild(option);
+                        }
+                    }
+                    {% endfor %}
+                    select.value = currentValue;
+                });
+            }
+
+            document.addEventListener('change', function(event) {
+                if (event.target.classList.contains('department-field')) {
+                    updateAvailableOptions();
+                }
+            });
         });
     </script>
 {% endblock %}
