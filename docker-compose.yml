@@ -14,6 +14,7 @@ services:
       - "54000:80"
     networks:
       - webDirectory-network
+    restart: unless-stopped
 
   api:
     image: canals/php:latest
@@ -26,30 +27,35 @@ services:
       - "54002:80"
     networks:
       - webDirectory-network
+    restart: unless-stopped
 
   mysql:
     image: mysql:8.0
     container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: webDirectory
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
       - webDirectory-network
+    restart: unless-stopped
+
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin_container
     environment:
       PMA_HOST: mysql_container
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "54001:80"
     networks:
       - webDirectory-network
+    restart: unless-stopped
+
 
   httpd:
     image: httpd:latest
@@ -60,6 +66,8 @@ services:
       - "54003:80"
     networks:
       - webDirectory-network
+    restart: unless-stopped
+
 
 volumes:
   mysql_data:
