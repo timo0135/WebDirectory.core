@@ -1,32 +1,46 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <h1>Créer une entrée</h1>
-    <form action="{{ url_for('entrees.create.post') }}" method="post">
-        <label for="firstname">Prénom</label>
-        <input type="text" name="firstname" id="firstname" required>
+    <h1 class="form-title">Créer une entrée</h1>
+    <form action="{{ url_for('entrees.create.post') }}" method="post" class="entry-form">
+        <div class="form-group">
+            <label for="firstname" class="form-label">Prénom</label>
+            <input type="text" name="firstname" id="firstname" class="form-input" required>
+        </div>
 
-        <label for="lastname">Nom</label>
-        <input type="text" name="lastname" id="lastname" required>
+        <div class="form-group">
+            <label for="lastname" class="form-label">Nom</label>
+            <input type="text" name="lastname" id="lastname" class="form-input" required>
+        </div>
 
-        <label for="fonction">Fonction</label>
-        <input type="text" name="fonction" id="fonction" required>
+        <div class="form-group">
+            <label for="fonction" class="form-label">Fonction</label>
+            <input type="text" name="fonction" id="fonction" class="form-input" required>
+        </div>
 
-        <label for="Desktop">Numéro de Bureau</label>
-        <input type="number" name="Desktop" id="Desktop" required>
+        <div class="form-group">
+            <label for="Desktop" class="form-label">Numéro de Bureau</label>
+            <input type="number" name="Desktop" id="Desktop" class="form-input" required>
+        </div>
 
-        <label for="phone1">Numéro de Téléphone 1</label>
-        <input type="tel" name="phone1" id="phone1" required>
+        <div class="form-group">
+            <label for="phone1" class="form-label">Numéro de Téléphone 1</label>
+            <input type="tel" name="phone1" id="phone1" class="form-input" required>
+        </div>
 
-        <label for="phone2">Numéro de Téléphone 2</label>
-        <input type="tel" name="phone2" id="phone2" disabled>
+        <div class="form-group">
+            <label for="phone2" class="form-label">Numéro de Téléphone 2</label>
+            <input type="tel" name="phone2" id="phone2" class="form-input" disabled>
+        </div>
 
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" required>
+        <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" id="email" class="form-input" required>
+        </div>
 
-        <div id="departments">
-            <label for="department1">Département 1</label>
-            <select name="departments[]" id="department1" class="department-field">
+        <div id="departments" class="form-group">
+            <label for="department1" class="form-label">Département 1</label>
+            <select name="departments[]" id="department1" class="department-field form-select">
                 <option value="">-- Sélectionner un département --</option>
                 {% for department in departements %}
                     <option value="{{ department['nom'] }}">{{ department['nom'] }}</option>
@@ -35,9 +49,9 @@
         </div>
 
         <input type="hidden" name="csrf" value="{{ csrf }}">
-        <button type="button" id="add-department">Ajouter un département</button>
+        <button type="button" id="add-department" class="form-button">Ajouter un département</button>
 
-        <button type="submit">Créer</button>
+        <button type="submit" class="form-button">Créer</button>
     </form>
 
     <script>
@@ -66,12 +80,13 @@
 
                 const newDepartmentLabel = document.createElement('label');
                 newDepartmentLabel.setAttribute('for', 'department' + departmentCount);
+                newDepartmentLabel.classList.add('form-label');
                 newDepartmentLabel.textContent = 'Département ' + departmentCount;
 
                 const newDepartmentSelect = document.createElement('select');
                 newDepartmentSelect.setAttribute('name', 'departments[]');
                 newDepartmentSelect.setAttribute('id', 'department' + departmentCount);
-                newDepartmentSelect.classList.add('department-field');
+                newDepartmentSelect.classList.add('department-field', 'form-select');
 
                 const defaultOption = document.createElement('option');
                 defaultOption.value = "";

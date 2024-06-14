@@ -12,10 +12,12 @@
                 <form action="{{ url_for('entrees.statut.post') }}" method="post">
                     <input type="hidden" name="id" value="{{ entree.id }}">
                     <input type="hidden" name="csrf" value="{{ csrf }}">
-                {% if entree.statut == 1 %}
-                    <button type="submit">Rendre privée l'entrée</button>
-                {% else %}
-                    <button type="submit">Rendre public l'entrée</button>
+                {% if sessionUser %}
+                    {% if entree.statut == 1 %}
+                        <button id="private" type="submit">Rendre privée l'entrée</button>
+                    {% else %}
+                        <button id="public" type="submit">Rendre public l'entrée</button>
+                    {% endif %}
                 {% endif %}
                 </form>
             </div>

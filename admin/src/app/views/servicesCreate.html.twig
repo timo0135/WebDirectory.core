@@ -1,16 +1,25 @@
 {% extends 'layout.html.twig' %}
 
 {% block content %}
-    <h1>Créer un service / département</h1>
-    <form action="{{ url_for('services.create.post') }}" method="post">
-        <label for="name">Nom</label>
-        <input type="text" name="name" id="name" required>
-        <label for="etage">Étage</label>
-        <input type="number" name="etage" id="etage" required>
-        <label for="description">Description (Markdown)</label>
-        <textarea name="description" id="description" required></textarea>
+    <h1 class="form-title">Créer un service / département</h1>
+    <form action="{{ url_for('services.create.post') }}" method="post" class="service-form">
+        <div class="form-group">
+            <label for="name" class="form-label">Nom</label>
+            <input type="text" name="name" id="name" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+            <label for="etage" class="form-label">Étage</label>
+            <input type="number" name="etage" id="etage" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="form-label">Description (Markdown)</label>
+            <textarea name="description" id="description" class="form-textarea" required></textarea>
+        </div>
+
         <input type="hidden" name="csrf" value="{{ csrf }}">
 
-        <button type="submit">Créer</button>
+        <button type="submit" class="form-button">Créer</button>
     </form>
 {% endblock %}

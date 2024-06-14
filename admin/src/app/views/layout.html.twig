@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Web Directory Admin{% endblock %}</title>
-    {#<link rel="stylesheet" href="{{ base_path()}}/{{ css }}/layout.css">#}
-    {#<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">#}
+    <link rel="stylesheet" href="{{ base_path()}}/{{ css }}/layout.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"></script>
@@ -15,19 +14,24 @@
 </head>
 <body>
 <header>
-    {#<a href="{{ url_for('home') }}"><h1>Gift Application</h1></a>
-    {% if sessionUser %}
-        <a id="logout" href="{{ url_for('logout') }}">Déconnexion</a>
-    {% endif %}#}
+    <div class="userGestion">
+        {% if sessionUser is null %}
+            <a href="{{ url_for('signin') }}">Connexion</a>
+        {% else %}
+            <a id="logout" href="{#{{ url_for('logout') }}#}">Déconnexion</a>
+        {% endif %}
+        {% if sessionUser['role'] == 100 %}
+            <a href="{{ url_for('signup') }}">Ajouter un compte</a>
+        {% endif %}
+    </div>
+    <a href="{#{{ url_for('home') }}#}"><h1>Web Directory Administration</h1></a>
 </header>
 <nav>
-    {% if sessionUser is null %}
-        <a href="{{ url_for('signin') }}">Connexion</a>
 
-    {% endif %}
-    {% if sessionUser['role'] == 100 %}
-        <a href="{{ url_for('signup') }}">Ajouter un compte</a>
-    {% endif %}
+    <a href="{{ url_for('entrees.create') }}">Ajouter une entrée</a>
+    <a href="{{ url_for('services.create') }}">Créer un service / département</a>
+    <a href="{#{{ url_for('services') }}#}">Liste des services / départements</a>
+    <a href="{{ url_for('entrees') }}">Liste des entrées</a>
 </nav>
 <main>
     {% block content %}{% endblock %}
