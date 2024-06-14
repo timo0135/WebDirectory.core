@@ -35,14 +35,13 @@ class GetEntreeByID extends Action
                     'numeroTel1' => $entree['numeroTel1'],
                     'numeroTel2' => $entree['numeroTel2'],
                     'email' => $entree['email'],
-                    'image' => $entree['image'],
                     'statut' => $entree['statut'],
                     'departement' => $depNoms,
 
 
                 ],
                 'links' => [
-
+                    'image' => '/img/'.$entree['image'],
                     'categories' => $depslink
                 ]
 

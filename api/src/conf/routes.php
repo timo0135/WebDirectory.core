@@ -8,6 +8,7 @@ use webDirectory\api\app\actions\GetEntreesAction;
 use webDirectory\api\app\actions\GetEntreeByID;
 
 use webDirectory\api\app\actions\GetEntreesByOneServiceAction;
+use webDirectory\api\app\actions\GetImageAction;
 
 return function(\Slim\App $app): \Slim\App {
 
@@ -28,6 +29,9 @@ return function(\Slim\App $app): \Slim\App {
         )->setName('api/entrees/search');
     $app->get('/api/entrees/{id}', GetEntreeByID::class)->setName('departement');
     $app->get('/api/services/{id}/entrees', GetEntreesByOneServiceAction::class);
+
+    $app->get('/img/{image}', GetImageAction::class)->setName('image');
+
     return $app;
 
 };

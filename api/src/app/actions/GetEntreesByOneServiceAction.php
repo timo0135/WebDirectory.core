@@ -86,7 +86,7 @@ class GetEntreesByOneServiceAction extends Action
             $json = [
                 'type' => 'collection',
                 'count' => count($entreesFormatted),
-                'entrées' => $entreesFormatted
+                'entrees' => $entreesFormatted
 
             ];
             $rs->getBody()->write(json_encode($json));
