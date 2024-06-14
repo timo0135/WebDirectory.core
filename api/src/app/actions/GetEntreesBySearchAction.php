@@ -45,7 +45,7 @@ class GetEntreesBySearchAction extends Action {
                     $depNoms[] = $dep['nom'];
                     $depslink[] = '/api/services/'.$dep['id'];
                 }
-                $entreesFormatted['entrees'][] = [
+                $entreesFormatted[] = [
                     'entree' => [
                         'nom' => $entree['nom'],
                         'prenom' => $entree['prenom'],
@@ -58,22 +58,6 @@ class GetEntreesBySearchAction extends Action {
                         'categories' => $depslink
                     ]
                 ];
-
-                /*
-                $entreesFormatted[] = [
-                    'entree' => [
-                        'id' => $entree['id'],
-                        'nom' => $entree['nom'],
-                        'prenom' => $entree['prenom'],
-                        'fonction' => $entree['fonction'],
-                        'numeroBureau' => $entree['numeroBureau'],
-                        'numeroTel1' => $entree['numeroTel1'],
-                        'numeroTel2' => $entree['numeroTel2'],
-                        'email' => $entree['email'],
-                        'image' => $entree['image'],
-                    ],
-                ];
-                */
             }
 
             $responseContent = [

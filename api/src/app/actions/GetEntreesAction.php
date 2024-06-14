@@ -34,8 +34,7 @@ class GetEntreesAction extends Action {
             // Format the response data
             $formattedEntrees = [
                 'type' => 'collection',
-                'count' => count($entreesData),
-                'prestations' => []
+                'count' => count($entreesData)
             ];
 
 
