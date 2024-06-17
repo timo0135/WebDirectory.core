@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Liste des services / départements{% endblock %}
+
+{% block content %}
+    <h2>Liste des services / départements</h2>
+    <div class="table">
+        {% for service in departements %}
+            <a class="row" href="{{ url_for('services.entrees', {'id':service.id}) }}">
+                <div class="cell">{{ service.nom }}</div>
+                <div class="cell">{{ service.description }}</div>
+            </a>
+        {% endfor %}
+{% endblock %}

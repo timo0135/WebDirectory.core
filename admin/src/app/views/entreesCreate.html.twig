@@ -40,7 +40,7 @@
 
         <div id="departments" class="form-group">
             <label for="department1" class="form-label">Département 1</label>
-            <select name="departments[]" id="department1" class="department-field form-select">
+            <select name="departments[]" id="department1" class="department-field form-select" required>
                 <option value="">-- Sélectionner un département --</option>
                 {% for department in departements %}
                     <option value="{{ department['nom'] }}">{{ department['nom'] }}</option>

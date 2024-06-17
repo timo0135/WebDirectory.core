@@ -2,14 +2,21 @@
 
 {% block content %}
     <div class="connection-container">
-        <h1>Connexion</h1>
-        <form action="{{ url_for('signin.post') }}" method="post">
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" placeholder="Email" required>
-            <label for="password">Mot de passe</label>
-            <input type="password" name="password" id="password" placeholder="Mot de passe" required>
+        <h1 class="connection-title">Connexion</h1>
+        <form action="{{ url_for('signin.post') }}" method="post" class="connection-form">
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" name="email" id="email" class="form-input" placeholder="Email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" name="password" id="password" class="form-input" placeholder="Mot de passe" required>
+            </div>
+
             <input type="hidden" name="csrf" value="{{ csrf }}">
-            <input type="submit" value="Connexion">
+
+            <input type="submit" value="Connexion" class="form-button">
         </form>
     </div>
 {% endblock %}

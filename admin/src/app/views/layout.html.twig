@@ -18,19 +18,19 @@
         {% if sessionUser is null %}
             <a href="{{ url_for('signin') }}">Connexion</a>
         {% else %}
-            <a id="logout" href="{#{{ url_for('logout') }}#}">Déconnexion</a>
+            <a id="logout" href="{{ url_for('logout') }}">Déconnexion</a>
         {% endif %}
         {% if sessionUser['role'] == 100 %}
             <a href="{{ url_for('signup') }}">Ajouter un compte</a>
         {% endif %}
     </div>
-    <a href="{#{{ url_for('home') }}#}"><h1>Web Directory Administration</h1></a>
+    <a href="{{ url_for('home') }}"><h1>Web Directory Administration</h1></a>
 </header>
 <nav>
 
     <a href="{{ url_for('entrees.create') }}">Ajouter une entrée</a>
     <a href="{{ url_for('services.create') }}">Créer un service / département</a>
-    <a href="{#{{ url_for('services') }}#}">Liste des services / départements</a>
+    <a href="{{ url_for('services') }}">Liste des services / départements</a>
     <a href="{{ url_for('entrees') }}">Liste des entrées</a>
 </nav>
 <main>

@@ -7,12 +7,15 @@ use webDirectory\admin\app\actions\GetCreateEntreeAction;
 use webDirectory\admin\app\actions\GetCreateServiceAction;
 use webDirectory\admin\app\actions\GetEntreesAction;
 use webDirectory\admin\app\actions\GetEntreesForOneServiceAction;
+use webDirectory\admin\app\actions\GetHomeAction;
 use webDirectory\admin\app\actions\GetInscriptionAction;
 use webDirectory\admin\app\actions\PostConnectionAction;
 use webDirectory\admin\app\actions\PostCreateEntreeAction;
 use webDirectory\admin\app\actions\PostCreateServiceAction;
+use webDirectory\admin\app\actions\GetDeconnexion;
 use webDirectory\admin\app\actions\PostEntreeStatutAction;
 use webDirectory\admin\app\actions\PostInscriptionAction;
+use webDirectory\admin\app\actions\GetDepartementsAction;
 
 return function(\Slim\App $app): \Slim\App {
 
@@ -37,6 +40,12 @@ return function(\Slim\App $app): \Slim\App {
     $app->get('/signup', GetInscriptionAction::class)->setName('signup');
 
     $app->post('/signup', PostInscriptionAction::class)->setName('signup.post');
+
+    $app->get('/', GetHomeAction::class)->setName('home');
+
+    $app->get('/services', GetDepartementsAction::class)->setName('services');
+
+    $app->get('/logout', GetDeconnexion::class)->setName('logout');
 
 
 
