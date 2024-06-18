@@ -64,12 +64,15 @@ class DepartementService implements DepartementServiceInterface {
     public function getEntreesBySearch(string $search): array
     {
         try {
-            $departements = Entree::where('nom', 'like', "%$search%")->where('statut', 1)->get();
+            $entrees = Entree::where('nom', 'like', "%$search%")
+                ->orWhere('prenom', 'like', "%$search%")
+                ->where('statut', 1)
+                ->get(); 
         } catch (\Exception $e) {
             throw new DepartementServiceNotFoundException("Aucun département ne correspond à la recherche $search");
         }
 
-        return $departements->toArray();
+        return $entrees->toArray();
     }
 
     /**
