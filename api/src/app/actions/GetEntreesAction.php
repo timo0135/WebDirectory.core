@@ -19,7 +19,7 @@ class GetEntreesAction extends Action {
     public  function __invoke( Request $rq, Response $rs, $args): Response {
 
         try{
-            $trie = $rq->getQueryParams()['order'] ?? null;
+            $trie = $rq->getQueryParams()['sort'] ?? null;
             if ($trie != null) {
                 $trie = explode('-', $trie);
                 $colum = $trie[0];

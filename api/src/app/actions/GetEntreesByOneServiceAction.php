@@ -21,7 +21,7 @@ class GetEntreesByOneServiceAction extends Action
     {
         try {
             $departement_id = $args['id'];
-            $trie = $rq->getQueryParams()['order'] ?? null;
+            $trie = $rq->getQueryParams()['sort'] ?? null;
             if ($trie != null) {
                 $trie = explode('-', $trie);
                 $colum = $trie[0];

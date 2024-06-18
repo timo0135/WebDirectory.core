@@ -24,7 +24,7 @@ class GetEntreesBySearchAction extends Action {
             if ($critereDeRecherche == null) {
                 throw new HttpBadRequestException($rq, 'Le critère de recherche est obligatoire');
             }
-            $trie = $rq->getQueryParams()['order'] ?? null;
+            $trie = $rq->getQueryParams()['sort'] ?? null;
             if ($trie != null) {
                 $trie = explode('-', $trie);
                 $colum = $trie[0];
