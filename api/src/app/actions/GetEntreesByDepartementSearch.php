@@ -62,17 +62,13 @@ class GetEntreesByDepartementSearch extends Action
             }
 
             $responseContent = [
+                'type' => 'collection',
+                'count' => count($entreesFormatted),
                 'entrees' => $entreesFormatted,
-                'links' => [
-                    'self' => [
-                        'href' => '/api/departements/' . $departement_id . '/entrees'
-                    ]
-                ]
             ];
 
             $rs->getBody()->write(json_encode($responseContent));
 
-            $rs->getBody()->write(json_encode($entrees));
             return $rs->withHeader('Content-Type', 'application/json')->withStatus(200);
         } catch (DepartementServiceNotFoundException $e) {
             throw new HttpNotFoundException($rq, $e->getMessage());
