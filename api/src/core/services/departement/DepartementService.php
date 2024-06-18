@@ -76,6 +76,19 @@ class DepartementService implements DepartementServiceInterface {
     }
 
     /**
+     * Méthode qui retourne les entrées correspondant à une recherche dans un département
+     */
+    public function getEntreesByDepartementSearch(int $departement_id, string $search): array
+    {
+        try{
+            $departement = Departement::findOrFail($departement_id);
+            return $departement->entree2Departement()->where('nom', 'like', "%$search%")->where('statut', 1)->get()->toArray();
+        }catch (\Exception $e){
+            throw new DepartementServiceNotFoundException("Departement not found");
+        }
+    }
+
+    /**
      * Méthode qui recupère toutes les entrées
      *
      * @return array

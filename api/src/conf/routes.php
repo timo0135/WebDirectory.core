@@ -6,7 +6,7 @@ use webDirectory\api\app\actions\GetDepartementByIdAction;
 use webDirectory\api\app\actions\GetEntreesBySearchAction;
 use webDirectory\api\app\actions\GetEntreesAction;
 use webDirectory\api\app\actions\GetEntreeByID;
-
+use webDirectory\api\app\actions\GetEntreesByDepartementSearch;
 use webDirectory\api\app\actions\GetEntreesByOneServiceAction;
 use webDirectory\api\app\actions\GetImageAction;
 
@@ -29,6 +29,11 @@ return function(\Slim\App $app): \Slim\App {
         )->setName('api/entrees/search');
     $app->get('/api/entrees/{id}', GetEntreeByID::class)->setName('departement');
     $app->get('/api/services/{id}/entrees', GetEntreesByOneServiceAction::class);
+
+    // Route pour récupérer les entrées appartenant à un département et en fonction d'un critère de recherche
+    $app->get('/api/services/{departement_id}/entrees/search',
+        GetEntreesByDepartementSearch::class
+        )->setName('api/services/{departement_id}/entrees/search');
 
     $app->get('/img/{image}', GetImageAction::class)->setName('image');
 

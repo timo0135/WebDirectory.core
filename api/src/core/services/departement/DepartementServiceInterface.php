@@ -9,6 +9,7 @@ interface DepartementServiceInterface {
     public function getDepartementById(int $id): array; // Méthode qui retourne un département par son id
     public function getEntrees(): array;
     public function getEntreesBySearch(string $search): array; // Méthode qui retourne les entrées correspondant à une recherche
+    public function getEntreesByDepartementSearch(int $departement_id, string $search): array;
     public function getEntreeById(string $id): array;
     public function getEntreesByDepartementOrder(int $departement_id, string $order, string $colum): array;
     public function getDepartementsOrder(string $order, string $colum): array;
