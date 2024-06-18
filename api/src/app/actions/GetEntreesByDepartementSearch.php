@@ -70,6 +70,8 @@ class GetEntreesByDepartementSearch extends Action
                 ]
             ];
 
+            $rs->getBody()->write(json_encode($responseContent));
+
             $rs->getBody()->write(json_encode($entrees));
             return $rs->withHeader('Content-Type', 'application/json')->withStatus(200);
         } catch (DepartementServiceNotFoundException $e) {
