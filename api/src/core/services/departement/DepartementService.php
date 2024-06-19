@@ -105,6 +105,9 @@ class DepartementService implements DepartementServiceInterface
     {
         try {
             $entree = Entree::where('id', $entree_id)->where('statut', 1)->first();
+            if (!$entree) {
+                throw new DepartementServiceNotFoundException("Entree not found");
+            }
             return $entree->toArray();
         } catch (\Exception $e) {
             throw new DepartementServiceNotFoundException("Entree not found");
