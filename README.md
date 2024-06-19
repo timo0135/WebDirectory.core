@@ -6,7 +6,7 @@ BENCHERGUI Timothée BIECHY Maxime DESPAQUIS Liam DIRAND Félicien
 Toutes les taches ont été faite avec succès ! (y compris les tâches étendues)
 
 ## Installation du projet : 
-- Récupérer le projet via le dépot git (git clone )
+- Récupérer le projet via le dépot git (git clone git@github.com:timo0135/WebDirectory.core.git)
 - À la racine du projet créer un fichier ".env" et remplissez la avec les informations que l'on vous a donné.
 - Au niveau du fichier docker_compose.yml, créez et lancez les containeurs avec la commande "docker compose up"
   
