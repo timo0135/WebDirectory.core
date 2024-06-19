@@ -6,7 +6,7 @@ networks:
 services:
   php:
     image: canals/php:latest
-    container_name: admin_container
+    container_name: admin_container_webDirectory
     volumes:
       - ./admin/public:/var/www/html
       - ./admin/src:/var/www/src
@@ -18,7 +18,7 @@ services:
 
   api:
     image: canals/php:latest
-    container_name: api_container
+    container_name: api_container_webDirectory
     volumes:
       - ./api/public:/var/www/html
       - ./api/src:/var/www/src
@@ -31,7 +31,7 @@ services:
 
   mysql:
     image: mysql:8.0
-    container_name: mysql_container
+    container_name: mysql_container_webDirectory
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: webDirectory
@@ -46,9 +46,9 @@ services:
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin_container
+    container_name: phpmyadmin_container_webDirectory
     environment:
-      PMA_HOST: mysql_container
+      PMA_HOST: mysql_container_webDirectory
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     ports:
       - "54001:80"
@@ -59,7 +59,7 @@ services:
 
   httpd:
     image: httpd:latest
-    container_name: httpd_container
+    container_name: httpd_container_webDirectory
     volumes:
       - ./api/public:/usr/local/apache2/htdocs/
     ports:

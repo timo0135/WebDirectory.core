@@ -34,9 +34,10 @@ class GetEntreesByDepartementSearch extends Action
                 $trie = explode('-', $trie);
                 $colum = $trie[0];
                 $order = $trie[1];
-                $entrees = $this->departementService->getEntreesByDepartementOrder($departement_id, $order, $colum);
+                $entrees = $this->departementService->getEntreesByDepartementSearchOrder($departement_id, $search, $order, $colum);
+            }else{
+                $entrees = $this->departementService->getEntreesByDepartementSearch($departement_id, $search);
             }
-            $entrees = $this->departementService->getEntreesByDepartementSearch($departement_id, $search);
 
             $entreesFormatted = [];
             foreach ($entrees as $entree) {

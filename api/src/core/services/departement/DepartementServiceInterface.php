@@ -15,4 +15,5 @@ interface DepartementServiceInterface {
     public function getDepartementsOrder(string $order, string $colum): array;
     public function getEntreesOrder(string $order, string $colum ): array;
     public function getEntreesBySearchOrder(string $search, string $order, string $colum): array;
+    public function getEntreesByDepartementSearchOrder(int $departement_id, string $search, string $order, string $colum): array;
 }

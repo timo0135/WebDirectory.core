@@ -41,16 +41,15 @@ class DepartementService implements DepartementServiceInterface {
             $entree['email'] !== filter_var($entree['email'], FILTER_SANITIZE_SPECIAL_CHARS)){
             throw new DepartementServiceBadDataException("Donnée suspecte");
         }
-        $img = strtolower($entree['lastname']).'png';
         $e = new Entree();
         $e->nom = $entree['lastname'];
         $e->prenom = $entree['firstname'];
         $e->fonction = $entree['fonction'];
         $e->numeroBureau = $entree['Desktop'];
         $e->numeroTel1 = $entree['phone1'];
-        $e->numeroTel2 = $entree['phone2'] ?? null;
+        $e->numeroTel2 = $entree['phone2'] === '' ? null : $entree['phone2'];
         $e->email = $entree['email'];
-        $e->image = $img;
+        $e->image = 'person.png';
         $e->statut = 1;
         $e->save();
         foreach ($departement as $key => $value){

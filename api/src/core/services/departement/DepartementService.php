@@ -64,15 +64,15 @@ class DepartementService implements DepartementServiceInterface
     public function getEntreesBySearch(string $search): array
     {
         try {
-            $entrees = Entree::where('nom', 'like', "%$search%")
-                ->orWhere('prenom', 'like', "%$search%")
-                ->where('statut', 1)
-                ->get();
+            $entree = Entree::where('statut', 1);
+            $entree = $entree->where(function ($query) use ($search) {
+                $query->where('nom', 'like', "%$search%")
+                    ->orWhere('prenom', 'like', "%$search%");
+            })->get()->toArray();
+            return $entree;
         } catch (\Exception $e) {
             throw new DepartementServiceNotFoundException("Aucun département ne correspond à la recherche $search");
         }
-
-        return $entrees->toArray();
     }
 
     /**
@@ -82,9 +82,14 @@ class DepartementService implements DepartementServiceInterface
     {
         try {
             $departement = Departement::findOrFail($departement_id);
-            return $departement->entree2Departement()->where('nom', 'like', "%$search%")
-                ->orWhere('prenom', 'like', "%$search%")
-                ->where('statut', 1)->get()->toArray();
+            $entree = $departement->entree2Departement()->where('statut', 1);
+            $entree = $entree->where(function ($query) use ($search) {
+                $query->where('nom', 'like', "%$search%")
+                    ->orWhere('prenom', 'like', "%$search%");
+            })->get()->toArray();
+            return $entree;
+
+
         } catch (\Exception $e) {
             throw new DepartementServiceNotFoundException("Departement not found");
         }
@@ -165,5 +170,25 @@ class DepartementService implements DepartementServiceInterface
             throw new DepartementServiceNotFoundException("Order not found");
         }
         return Entree::where('nom', 'like', "%$search%")->where('statut', 1)->orderBy($colum, $order)->get()->toArray();
+    }
+
+    public function getEntreesByDepartementSearchOrder(int $departement_id, string $search, string $order, string $colum): array
+    {
+        try {
+            // vérfifier que la colonne existe
+            if (!Capsule::schema()->hasColumn('entree', $colum)) {
+                throw new DepartementServiceNotFoundException("Column not found");
+            }
+            if ($order !== 'asc' && $order !== 'desc') {
+                throw new DepartementServiceNotFoundException("Order not found");
+            }
+            $departement = Departement::findOrFail($departement_id);
+            return $departement->entree2Departement()->where('statut', 1)->where(function ($query) use ($search) {
+                $query->where('nom', 'like', "%$search%")
+                    ->orWhere('prenom', 'like', "%$search%");
+            })->orderBy($colum, $order)->get()->toArray();
+        } catch (\Exception $e) {
+            throw new DepartementServiceNotFoundException("Departement not found");
+        }
     }
 }

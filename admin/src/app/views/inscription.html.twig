@@ -2,14 +2,14 @@
 {% block content %}
 <h1>Ajout d'un compte</h1>
 
-    <form action="{{ url_for('signup.post') }}" method="post">
+    <form action="{{ url_for('signup.post') }}" method="post" class="entry-form">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email" placeholder="Email">
+        <input type="email" name="email" id="email" placeholder="Email" class="form-input" required>
         <label for="password">Mot de passe</label>
-        <input type="password" name="password" id="password" placeholder="Mot de passe">
+        <input type="password" name="password" id="password" placeholder="Mot de passe" class="form-input" required>
         <label for="password_confirm">Confirmer le mot de passe</label>
-        <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirmer le mot de passe">
+        <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirmer le mot de passe" class="form-input" required>
         <input type="hidden" value="{{ csrf }}" name="csrf">
-        <input type="submit" value="Créer le compte">
+        <input type="submit" value="Créer le compte" class="form-button">
     </form>
 {% endblock %}
