@@ -5,6 +5,7 @@ namespace webDirectory\api\app\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
+use webDirectory\api\app\utils\HeaderJson;
 use webDirectory\api\core\services\departement\DepartementService;
 use webDirectory\api\core\services\departement\DepartementServiceInterface;
 use webDirectory\api\core\services\departement\DepartementServiceNotFoundException;
@@ -55,33 +56,6 @@ class GetEntreesByOneServiceAction extends Action
                         'categories' => $depslink
                     ]
                 ];
-                
-                /*$departements = $this->departementService->getDepartementByEntree($entree['id']);
-                $departementsFormatted = [];
-                foreach ($departements as $departement) {
-                    $departementsFormatted[] = [
-                        'departement' => [
-                            'id' => $departement['id'],
-                            'nom' => $departement['nom'],
-                            'etage' => $departement['etage'],
-                            'description' => $departement['description']
-                        ],
-                        'links' => [
-                            'self' => ['href' => '/services/' . $departement['id'] . '/']
-                        ]
-                    ];
-                }
-                $entreesFormatted[] = [
-                    'entree' => [
-                        'nom' => $entree['nom'],
-                        'prenom' => $entree['prenom'],
-                        'departement' => $departementsFormatted
-
-                    ],
-                    'links' => [
-                        'self' => ['href' => '/entrees/' . $entree['id'] . '/']
-                    ]
-                ];*/
             }
             $json = [
                 'type' => 'collection',
@@ -89,8 +63,7 @@ class GetEntreesByOneServiceAction extends Action
                 'entrees' => $entreesFormatted
 
             ];
-            $rs->getBody()->write(json_encode($json));
-            return $rs->withHeader('Content-Type', 'application/json');
+            return HeaderJson::setHeaderJson($rs, $json);
         }catch (DepartementServiceNotFoundException $e){
             throw new HttpNotFoundException($rq, $e->getMessage());
         }

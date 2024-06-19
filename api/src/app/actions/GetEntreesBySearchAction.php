@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
+use webDirectory\api\app\utils\HeaderJson;
 use webDirectory\api\core\services\departement\DepartementService;
 use webDirectory\api\core\services\departement\DepartementServiceInterface;
 use webDirectory\api\core\services\departement\DepartementServiceNotFoundException;
@@ -66,10 +67,7 @@ class GetEntreesBySearchAction extends Action {
                 'entrees' => $entreesFormatted,
             ];
 
-            $rs->getBody()->write(json_encode($responseContent));
-
-            return $rs->withHeader('Content-Type', 'application/json')
-                ->withStatus(200);
+            return HeaderJson::setHeaderJson($rs, $responseContent);
         }catch (DepartementServiceNotFoundException $e) {
             throw new HttpNotFoundException($rq, $e->getMessage());
         }

@@ -5,6 +5,7 @@ namespace webDirectory\api\app\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
+use webDirectory\api\app\utils\HeaderImage;
 
 class GetImageAction extends Action
 {
@@ -17,18 +18,6 @@ class GetImageAction extends Action
         if (!file_exists($imagePath)) {
             throw new HttpNotFoundException($rq, "Image not found");
         }
-
-        // Obtenir le type MIME de l'image
-        $mimeType = mime_content_type($imagePath);
-        // Configurer les en-têtes CORS et le type de contenu
-        $rs = $rs->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-            ->withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-            ->withHeader('Content-Type', $mimeType);
-
-        $imageContent = file_get_contents($imagePath);
-        $rs->getBody()->write($imageContent);
-
-        return $rs;
+        return HeaderImage::setHeaderImage($rs, $imagePath);
     }
 }

@@ -3,6 +3,7 @@ namespace webDirectory\api\app\actions;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Exception\HttpNotFoundException;
+use webDirectory\api\app\utils\HeaderJson;
 use webDirectory\api\core\services\departement\DepartementService;
 use webDirectory\api\core\services\departement\DepartementServiceInterface;
 use webDirectory\api\core\services\departement\DepartementServiceNotFoundException;
@@ -61,11 +62,7 @@ class GetEntreesAction extends Action {
                 ];
             }
 
-            $responseJson = json_encode($formattedEntrees);
-            $rs->getBody()->write($responseJson);
-
-
-            return $rs->withHeader('Content-Type', 'application/json');
+            return HeaderJson::setHeaderJson($rs, $formattedEntrees);
         }catch (DepartementServiceNotFoundException $e) {
             throw new HttpNotFoundException($rq, $e->getMessage());
         }
