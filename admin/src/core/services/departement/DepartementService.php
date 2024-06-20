@@ -34,7 +34,7 @@ class DepartementService implements DepartementServiceInterface {
         // contre les injections
         if ($entree['lastname'] !== filter_var($entree['lastname'], FILTER_SANITIZE_SPECIAL_CHARS)
             || $entree['firstname'] !== filter_var($entree['firstname'], FILTER_SANITIZE_SPECIAL_CHARS) ||
-            $entree['fonction'] !== filter_var($entree['fonction'], FILTER_SANITIZE_SPECIAL_CHARS) ||
+            $entree['fonction'] !== filter_var($entree['fonction'], FILTER_SANITIZE_EMAIL) || // On utilise celui la car il accepte les quotes
             $entree['Desktop'] !== filter_var($entree['Desktop'], FILTER_SANITIZE_SPECIAL_CHARS) ||
             $entree['phone1'] !== filter_var($entree['phone1'], FILTER_SANITIZE_SPECIAL_CHARS) ||
             $entree['phone2'] !== filter_var($entree['phone2'], FILTER_SANITIZE_SPECIAL_CHARS) ||

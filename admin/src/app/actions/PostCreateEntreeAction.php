@@ -4,8 +4,11 @@ namespace webDirectory\admin\app\actions;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpBadRequestException;
 use webDirectory\admin\app\utils\CsrfService;
+use webDirectory\admin\app\utils\CsrfServiceException;
 use webDirectory\admin\core\services\departement\DepartementService;
+use webDirectory\admin\core\services\departement\DepartementServiceBadDataException;
 use webDirectory\admin\core\services\departement\DepartementServiceInterface;
 
 class PostCreateEntreeAction extends Action
@@ -30,8 +33,10 @@ class PostCreateEntreeAction extends Action
             }, ARRAY_FILTER_USE_KEY);
             $id = $this->departementService->createEntree($entree, $departement['departments']);
             return $rs->withHeader('Location', '/entrees/create')->withStatus(302);
-        }catch (\Exception $e) {
-            throw new \Exception('Données invalides');
+        }catch (CsrfServiceException $e){
+            throw new \Exception($e->getMessage());
+        } catch (DepartementServiceBadDataException $e) {
+            throw new HttpBadRequestException($rq, $e->getMessage());
         }
     }
 }

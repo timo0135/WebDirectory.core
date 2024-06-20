@@ -14,7 +14,7 @@ class CsrfService
     public static function check(string $token): void
     {
         if (!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $token) {
-            throw new \Exception('Token CSRF invalide');
+            throw new CsrfServiceException('Token invalide');
         }
         unset($_SESSION['csrf_token']);
     }

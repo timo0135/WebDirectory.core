@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use webDirectory\admin\app\providers\auth\AuthProviderInterface;
 use webDirectory\admin\app\providers\auth\SessionAuthProvider;
 use webDirectory\admin\app\utils\CsrfService;
+use webDirectory\admin\app\utils\CsrfServiceException;
 
 class PostConnectionAction extends Action
 {
@@ -28,8 +29,8 @@ class PostConnectionAction extends Action
                 return $rs->withHeader('Location', '/entrees')->withStatus(302);
             }
             return $rs->withHeader('Location', '/signin')->withStatus(302);
-        }catch (\Exception $e){
-            throw new \Exception('Données suspectes');
+        }catch (CsrfServiceException $e){
+            throw new \Exception($e->getMessage());
         }
     }
 }
