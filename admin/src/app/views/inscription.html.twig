@@ -10,6 +10,10 @@
         <label for="password_confirm">Confirmer le mot de passe</label>
         <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirmer le mot de passe" class="form-input" required>
         <input type="hidden" value="{{ csrf }}" name="csrf">
+        {% if sessionError_message %}
+            <p class="error">{{ sessionError_message }}</p>
+        {% endif %}
         <input type="submit" value="Créer le compte" class="form-button">
     </form>
+
 {% endblock %}

@@ -25,23 +25,40 @@ class PostInscriptionAction extends Action
 
     public function __invoke(Request $rq, Response $rs, $args): Response
     {
-        try{
+        try {
             $data = $rq->getParsedBody();
             CsrfService::check($data['csrf']);
-            if($this->authProvider->isSignedIn()) {
-                if ($this->authorizationService->isGranted($_SESSION['user']['id'], addAcount, '')) {
-                    if ($data['password'] === $data['password_confirm']){
-                        $this->authProvider->register($data['email'], $data['password']);
-                        return $rs->withHeader('Location', '/entrees')->withStatus(302);
-                    }
-                    return $rs->withHeader('Location', '/signup')->withStatus(302);
+
+            $password = $data['password'];
+            $password_confirm = $data['password_confirm'];
+            $passwordLength = strlen($password);
+            $containsLetter  = preg_match('/[a-zA-Z]/', $password);
+            $containsDigit   = preg_match('/\d/', $password);
+            $containsSpecial = preg_match('/[^a-zA-Z\d]/', $password);
+
+            if ($passwordLength < 8 || !$containsLetter || !$containsDigit || !$containsSpecial) {
+                $_SESSION['error_message'] = 'Le mot de passe doit contenir au moins 8 caractères, incluant des lettres, des chiffres et des caractères spéciaux.';
+                return $rs->withHeader('Location', '/signup')->withStatus(302);
+            }
+
+            if ($password !== $password_confirm) {
+                $_SESSION['error_message'] = 'Les mots de passe ne correspondent pas.';
+                return $rs->withHeader('Location', '/signup')->withStatus(302);
+            }
+
+            if ($this->authProvider->isSignedIn()) {
+                if ($this->authorizationService->isGranted($_SESSION['user']['id'], 'addAccount', '')) {
+                    unset($_SESSION['error_message']);
+                    $this->authProvider->register($data['email'], $password);
+                    return $rs->withHeader('Location', '/entrees')->withStatus(302);
                 }
                 throw new HttpForbiddenException($rq, 'Vous n\'avez pas les droits pour consulter cette page');
             }
+
             return $rs->withHeader('Location', '/signin')->withStatus(302);
-        }catch (AuthServiceBadException $e){
+        } catch (AuthServiceBadException $e) {
             return $rs->withHeader('Location', '/signup')->withStatus(302);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception('Données invalides');
         }
     }

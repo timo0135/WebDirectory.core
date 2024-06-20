@@ -21,6 +21,7 @@ $twig->getEnvironment()->addGlobal('js', 'assets/js');
 
 $sessionMiddleware = function (Request $request, RequestHandler $handler) use ($twig): Response {
     $twig->getEnvironment()->addGlobal('sessionUser', $_SESSION['user'] ?? null);
+    $twig->getEnvironment()->addGlobal('sessionError_message', $_SESSION['error_message'] ?? null);
 
     return $handler->handle($request);
 };
